@@ -9,10 +9,10 @@ const FoodCard = ({ item }) => {
       </figure>
       <div className="card-body text-center">
         <h2 className="text-center">{name}</h2>
-        <p>Price: {price}</p>
+        <p>Price: {price}$</p>
         <p>Recipe: {recipe}</p>
         <div className=" justify-end text-center">
-          <button className="btn btn-outline text-[#BB8506] border-0 border-b-4 border-[#BB8506] mt-6 hover:bg-black hover:text-[#BB8506]">
+          <button className="btn btn-outline bg-[#E8E8E8] text-[#BB8506] border-0 border-b-4 border-[#BB8506] mt-6 hover:bg-black hover:text-[#BB8506] hover:border-b-4 hover:border-[#BB8506]">
             Add to cart
           </button>
         </div>

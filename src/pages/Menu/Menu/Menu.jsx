@@ -32,7 +32,7 @@ const Menu = () => {
       </div>
       <div className="my-20 w-[90%] mx-auto">
         <MenuCategory
-          title={"Desserts"}
+          title={"dessert"}
           coverImage={dessertImage}
           items={dessert}
           desc={
@@ -42,7 +42,7 @@ const Menu = () => {
       </div>
       <div className="my-20 w-[90%] mx-auto">
         <MenuCategory
-          title={"Pizza"}
+          title={"pizza"}
           coverImage={pizzaImage}
           items={pizza}
           desc={
@@ -52,7 +52,7 @@ const Menu = () => {
       </div>
       <div className="my-20 w-[90%] mx-auto">
         <MenuCategory
-          title={"Salads"}
+          title={"salad"}
           coverImage={saladImage}
           items={salad}
           desc={
@@ -62,7 +62,7 @@ const Menu = () => {
       </div>
       <div className="my-20 w-[90%] mx-auto">
         <MenuCategory
-          title={"Soups"}
+          title={"soup"}
           coverImage={soupImage}
           items={soup}
           desc={
