@@ -3,7 +3,7 @@ import "./Register.css";
 import registerImage from "../../assets/others/authentication2.png";
 
 import { AuthContext } from "../../providers/AuthProvider";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, Navigate, json, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { Helmet } from "react-helmet-async";
 import Swal from "sweetalert2";
@@ -19,25 +19,34 @@ const Register = () => {
   } = useForm();
 
   const onSubmit = (data) => {
-    console.log(data);
     signUp(data.email, data.password)
       .then((result) => {
         console.log(result.user);
         updateUserProfile(data.name, data.photo)
           .then(() => {
-            console.log("user profile info updated");
-            reset();
-            Swal.fire({
-              position: "center",
-              icon: "success",
-              title: "User has been created successfully",
-              showConfirmButton: false,
-              timer: 1500,
-            });
-            navigate("/login");
-            logOut()
-              .then(() => {})
-              .catch((error) => console.log(error));
+            const saveUser = { name: data.name, email: data.email };
+            fetch("http://localhost:5000/users", {
+              method: "POST",
+              headers: { "content-type": "application/json" },
+              body: JSON.stringify(saveUser),
+            })
+              .then((res) => res.json())
+              .then((data) => {
+                if (data.acknowledged) {
+                  reset();
+                  Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: "User has been created successfully",
+                    showConfirmButton: false,
+                    timer: 1500,
+                  });
+                  navigate("/login");
+                  logOut()
+                    .then(() => {})
+                    .catch((error) => console.log(error));
+                }
+              });
           })
           .catch((error) => console.log(error));
       })

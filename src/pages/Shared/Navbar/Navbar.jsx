@@ -1,9 +1,12 @@
-import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { Link, NavLink } from "react-router-dom";
 import { AuthContext } from "../../../providers/AuthProvider";
+import { FaShoppingCart } from "react-icons/fa";
+import useCart from "../../../hooks/useCart";
 
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
+  const [cart] = useCart();
 
   const handleLogout = () => {
     logOut()
@@ -15,27 +18,37 @@ const Navbar = () => {
     <>
       {" "}
       <li>
-        <Link to="/">Home</Link>
+        <NavLink to="/">Home</NavLink>
       </li>
       <li>
-        <Link to="/menu">Our Menu</Link>
+        <NavLink to="/menu">Our Menu</NavLink>
       </li>
       <li>
-        <Link to="/order/salad">Order</Link>
+        <NavLink to="/order/salad">Order</NavLink>
       </li>
       {!user ? (
         <>
           <li>
-            <Link to="/login">Login</Link>
+            <NavLink to="/login">Login</NavLink>
           </li>
           <li>
-            <Link to="/register">Register</Link>
+            <NavLink to="/register">Register</NavLink>
           </li>
         </>
       ) : (
         <>
           <li onClick={handleLogout}>
-            <Link>Logout</Link>
+            <Link className="bg-transparent">Logout</Link>
+          </li>
+          <li>
+            <NavLink to="/dashboard/myCart">
+              <button className="btn bg-transparent hover:bg-transparent border-none text-xl gap-2 text-black lg:text-white">
+                <FaShoppingCart></FaShoppingCart>
+                <div className="badge badge-secondary">
+                  {cart ? cart.length : 0}
+                </div>
+              </button>
+            </NavLink>
           </li>
         </>
       )}
@@ -65,19 +78,31 @@ const Navbar = () => {
             </label>
             <ul
               tabIndex={0}
-              className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
+              className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52 text-black space-x-2"
             >
               {navOptions}
             </ul>
           </div>
-          <a className="btn btn-ghost normal-case text-xl">daisyUI</a>
+          <h1 className="uppercase">
+            <span className="font-extrabold text-2xl flex-col">
+              Bistro Boss
+              <br />
+              <span className="text-lg font-normal">R e s t a u r a n t</span>
+            </span>
+          </h1>
         </div>
         <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal px-1">{navOptions}</ul>
+          <ul className="menu menu-horizontal px-1 space-x-2">{navOptions}</ul>
         </div>
-        <div className="navbar-end">
-          <a className="btn">Get started</a>
-        </div>
+        {user?.photoURL && (
+          <div className="navbar-end">
+            <div className="avatar">
+              <div className="w-12 rounded-full hover:ring cursor-pointer ring-primary ring-offset-base-100 ring-offset-2">
+                <img src={user?.photoURL} />
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </>
   );

@@ -22,7 +22,11 @@ const Menu = () => {
       <Helmet>
         <title>Bistro Boss | Menu</title>
       </Helmet>
-      <MenuCategory title={"Let's go"} coverImage={menuImage}></MenuCategory>
+      <MenuCategory
+        title={"Our Menu"}
+        desc={"Would you like to try a dish?"}
+        coverImage={menuImage}
+      ></MenuCategory>
       <SectionTitle
         subHeading={"Don't Miss"}
         heading={"Today's offer"}

@@ -10,6 +10,7 @@ import { AuthContext } from "../../providers/AuthProvider";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import Swal from "sweetalert2";
+import SocialLogin from "../Shared/SocialLogin/SocialLogin";
 
 const Login = () => {
   const { signIn } = useContext(AuthContext);
@@ -103,15 +104,16 @@ const Login = () => {
                   onBlur={handleValidateCaptcha}
                 />
               </div>
-
+              {/* TODO: Make button disabled before captcha test */}
               <div className="form-control mt-6">
                 <input
                   className="btn bg-[#D1A054] normal-case border-none hover:bg-[#724f1b]"
                   type="submit"
                   value="Sign in"
-                  disabled={disabled}
+                  disabled={false}
                 />
               </div>
+              <SocialLogin></SocialLogin>
               <p className="text-center my-2">
                 New to this website?{" "}
                 <Link to="/register" className="text-blue-500 font-bold">

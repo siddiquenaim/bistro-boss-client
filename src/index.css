@@ -1,3 +1,22 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.drawer-side a.active {
+  color: white;
+  background: #000;
+}
+
+.drawer-side a:hover {
+  color: white;
+  background: #00000041;
+}
+
+.menu a.active {
+  color: white;
+  background-color: #0000009a;
+}
+.menu a:hover {
+  color: white;
+  background-color: #0000009a;
+}
