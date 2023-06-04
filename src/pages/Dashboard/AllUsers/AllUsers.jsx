@@ -2,50 +2,52 @@ import { useQuery } from "@tanstack/react-query";
 import { Helmet } from "react-helmet-async";
 import { FaTrashAlt, FaUserShield } from "react-icons/fa";
 import Swal from "sweetalert2";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const AllUsers = () => {
+  // step-1: import axiosSecure from useAxiosSecure
+  const [axiosSecure] = useAxiosSecure();
   const { data: users = [], refetch } = useQuery(["users"], async () => {
-    const res = await fetch("http://localhost:5000/users");
-    return res.json();
+    const res = await axiosSecure.get("/users");
+    // step-2: must mention the method name (in this case the method name is get),
+    // step-3: only mention the endpoint of the url, don't mention the base url (/users)
+    return res.data;
+    // step-4: must use res.data to get the data (don't need to convert to json)
   });
 
-  const handleDelete = (_id) => {
-    console.log(_id);
-  };
-
-  const handleMakeAdmin = (_id) => {
-    fetch(`http://localhost:5000/users/admin/${_id}`, {
+  const handleMakeAdmin = (user) => {
+    fetch(`http://localhost:5000/users/admin/${user._id}`, {
       method: "PATCH",
     })
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
         if (data.modifiedCount) {
+          refetch();
           Swal.fire({
-            title: "Custom width, padding, color, background.",
-            width: 600,
-            padding: "3em",
-            color: "#716add",
-            background: "#fff",
-            backdrop: `
-            rgba(0,0,123,0.4)
-            url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPhWS-lkcnVQOp8Vqz6t_g98aw0_5LNHUXgazmlyLrPw&s")
-            left top
-            no-repeat
-          `,
+            position: "top-end",
+            icon: "success",
+            title: `${user.name} is an Admin Now!`,
+            showConfirmButton: false,
+            timer: 1500,
           });
         }
       });
   };
 
+  const handleDelete = (user) => {};
+
   return (
-    <div className="w-full mx-auto p-4">
+    <div className="w-full">
       <Helmet>
-        <title>Bistro Boss | All Users</title>
+        <title>Bistro Boss | All users</title>
       </Helmet>
-      <h2 className="text-3xl font-semibold">Total Users: {users.length}</h2>
-      <div className="overflow-x-auto">
-        <table className="table table-zebra my-10 w-full">
+      <h3 className="text-3xl font-semibold my-4 text-center">
+        Total Users: {users.length}
+      </h3>
+      <div className="overflow-x-auto p-4">
+        <table className="table table-zebra w-full">
+          {/* head */}
           <thead>
             <tr>
               <th>#</th>
@@ -56,29 +58,29 @@ const AllUsers = () => {
             </tr>
           </thead>
           <tbody>
-            {users.map((user, i) => (
+            {users.map((user, index) => (
               <tr key={user._id}>
-                <th>{i + 1}</th>
+                <th>{index + 1}</th>
                 <td>{user.name}</td>
                 <td>{user.email}</td>
                 <td>
                   {user.role === "admin" ? (
-                    "Admin"
+                    "admin"
                   ) : (
                     <button
-                      onClick={() => handleMakeAdmin(user._id)}
-                      className="btn btn-ghost btn-md bg-orange-500 text-white hover:text-orange-500"
+                      onClick={() => handleMakeAdmin(user)}
+                      className="btn btn-ghost bg-orange-600  text-white"
                     >
-                      <FaUserShield />
+                      <FaUserShield></FaUserShield>
                     </button>
                   )}
                 </td>
                 <td>
                   <button
-                    onClick={() => handleDelete(user._id)}
-                    className="btn btn-ghost btn-md bg-red-700 text-white hover:text-red-700 "
+                    onClick={() => handleDelete(user)}
+                    className="btn btn-ghost bg-red-600  text-white"
                   >
-                    <FaTrashAlt />
+                    <FaTrashAlt></FaTrashAlt>
                   </button>
                 </td>
               </tr>
