@@ -56,7 +56,7 @@ const Dashboard = () => {
                 </NavLink>
               </li>
               <li className="hover:text-white">
-                <NavLink to="/dashboard/add-items">
+                <NavLink to="/dashboard/add-item">
                   <FaUtensils></FaUtensils> Add Items
                 </NavLink>
               </li>
